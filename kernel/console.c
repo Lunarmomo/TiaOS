@@ -25,7 +25,7 @@
 /* local routines */
 PRIVATE void	set_cursor(unsigned int position);
 PRIVATE void	set_video_start_addr(u32 addr);
-PRIVATE void	flush(CONSOLE* con);
+PUBLIC void	flush(CONSOLE* con);
 PRIVATE	void	w_copy(unsigned int dst, const unsigned int src, int size);
 PRIVATE void	clear_screen(int pos, int len);
 
@@ -84,6 +84,7 @@ PUBLIC void init_screen(TTY* tty)
  *****************************************************************************/
 PUBLIC void out_char(CONSOLE* con, char ch)
 {
+	int i;
 	u8* pch = (u8*)(V_MEM_BASE + con->cursor * 2);
 
 	assert(con->cursor - con->orig < con->con_size);
@@ -104,6 +105,13 @@ PUBLIC void out_char(CONSOLE* con, char ch)
 			con->cursor--;
 			*(pch - 2) = ' ';
 			*(pch - 1) = DEFAULT_CHAR_COLOR;
+		}
+		break;
+	case '\t':
+		for (i = 0; i < TAB_WIDTH; i++) {
+			*pch++ = ' ';
+			*pch++ = DEFAULT_CHAR_COLOR;
+			con->cursor++;
 		}
 		break;
 	default:
@@ -305,7 +313,7 @@ PUBLIC void scroll_screen(CONSOLE* con, int dir)
  * 
  * @param con  The console to be set.
  *****************************************************************************/
-PRIVATE void flush(CONSOLE* con)
+PUBLIC void flush(CONSOLE* con)
 {
 	if (is_current_console(con)) {
 		set_cursor(con->cursor);

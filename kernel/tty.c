@@ -60,7 +60,7 @@ PRIVATE void	tty_dev_write	(TTY* tty);
 PRIVATE void	tty_do_read	(TTY* tty, MESSAGE* msg);
 PRIVATE void	tty_do_write	(TTY* tty, MESSAGE* msg);
 PRIVATE void	put_key		(TTY* tty, u32 key);
-
+PRIVATE void 	move_cursor	(int direction, TTY* tty);
 
 /*****************************************************************************
  *                                task_tty
@@ -137,6 +137,12 @@ PRIVATE void init_tty(TTY* tty)
 	tty->ibuf_cnt = 0;
 	tty->ibuf_head = tty->ibuf_tail = tty->ibuf;
 
+	tty->tty_caller = NO_TASK;
+	tty->tty_procnr = NO_TASK;
+	tty->tty_req_buf = 0;
+	tty->tty_left_cnt = 0;
+	tty->tty_trans_cnt = 0;
+
 	init_screen(tty);
 }
 
@@ -176,6 +182,13 @@ PUBLIC void in_process(TTY* tty, u32 key)
 				scroll_screen(tty->console, SCR_UP);
 			}
 			break;
+		case LEFT:
+			tty->console->cursor--;
+			flush(tty->console);
+			break;
+		case RIGHT:
+			move_cursor(1, tty);
+			break;
 		case F1:
 		case F2:
 		case F3:
@@ -188,8 +201,8 @@ PUBLIC void in_process(TTY* tty, u32 key)
 		case F10:
 		case F11:
 		case F12:
-			if ((key & FLAG_ALT_L) ||
-			    (key & FLAG_ALT_R)) {	/* Alt + F1~F12 */
+			if ((key & FLAG_CTRL_L) ||
+			    (key & FLAG_CTRL_R)) {	/* Alt + F1~F12 */
 				select_console(raw_code - F1);
 			}
 			break;
@@ -261,9 +274,12 @@ PRIVATE void tty_dev_write(TTY* tty)
 		if (tty->tty_left_cnt) {
 			if (ch >= ' ' && ch <= '~') { /* printable */
 				out_char(tty->console, ch);
+
+				assert(tty->tty_req_buf);
 				void * p = tty->tty_req_buf +
 					   tty->tty_trans_cnt;
 				phys_copy(p, (void *)va2la(TASK_TTY, &ch), 1);
+
 				tty->tty_trans_cnt++;
 				tty->tty_left_cnt--;
 			}
@@ -275,6 +291,8 @@ PRIVATE void tty_dev_write(TTY* tty)
 
 			if (ch == '\n' || tty->tty_left_cnt == 0) {
 				out_char(tty->console, '\n');
+
+				assert(tty->tty_procnr != NO_TASK);
 				MESSAGE msg;
 				msg.type = RESUME_PROC;
 				msg.PROC_NR = tty->tty_procnr;
@@ -311,7 +329,6 @@ PRIVATE void tty_do_read(TTY* tty, MESSAGE* msg)
 	tty->tty_trans_cnt= 0; /* how many chars have been transferred */
 
 	msg->type = SUSPEND_PROC;
-	msg->CNT = tty->tty_left_cnt;
 	send_recv(SEND, tty->tty_caller, msg);
 }
 
@@ -475,3 +492,18 @@ PUBLIC void dump_tty_buf()
 	strcpy(sep, "\n");
 }
 
+
+//direaction: 0:LEFT, 1: RIGHT
+PRIVATE void move_cursor(int direction, TTY* tty)
+{
+	if(direction == 0)
+	{
+		tty->console->cursor--;
+		flush(tty->console);
+	}
+	else if(direction == 1)
+	{
+		tty->console->cursor++;
+		flush(tty->console);
+	}
+}
