@@ -24,7 +24,6 @@
 #include "keymap.h"
 #include "proto.h"
 
-PRIVATE	struct kb_inbuf	kb_in;
 PRIVATE	int		code_with_E0;
 PRIVATE	int		shift_l;	/* l shift state	*/
 PRIVATE	int		shift_r;	/* r shift state	*/
@@ -344,7 +343,9 @@ PRIVATE u8 get_byte_from_kb_buf()
 	disable_int();		/* for synchronization */
 	scan_code = *(kb_in.p_tail);
 	kb_in.p_tail++;
-	if (kb_in.p_tail == kb_in.buf + KB_IN_BYTES) {
+	if (kb_in.p_tail == kb_in.buf + KB_IN_BYTES) 
+	{
+		//back to head address
 		kb_in.p_tail = kb_in.buf;
 	}
 	kb_in.count--;

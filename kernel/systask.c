@@ -57,6 +57,10 @@ PUBLIC void task_sys()
 				  sizeof(t));
 			send_recv(SEND, src, &msg);
 			break;
+		case GET_PROC_STATUS:
+			msg.u.m3.m3i1 = user_proc_table[0].stacksize;
+			send_recv(SEND, src, &msg);
+			break;	
 		default:
 			panic("unknown msg type");
 			break;

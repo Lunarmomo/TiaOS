@@ -182,13 +182,12 @@ PUBLIC void in_process(TTY* tty, u32 key)
 				scroll_screen(tty->console, SCR_UP);
 			}
 			break;
-		case LEFT:
-			tty->console->cursor--;
-			flush(tty->console);
-			break;
-		case RIGHT:
-			move_cursor(1, tty);
-			break;
+		// case LEFT:
+		// 	move_cursor(0, tty);
+		// 	break;
+		// case RIGHT:
+		// 	move_cursor(1, tty);
+		// 	break;
 		case F1:
 		case F2:
 		case F3:
@@ -226,7 +225,8 @@ PUBLIC void in_process(TTY* tty, u32 key)
  *****************************************************************************/
 PRIVATE void put_key(TTY* tty, u32 key)
 {
-	if (tty->ibuf_cnt < TTY_IN_BYTES) {
+	if (tty->ibuf_cnt < TTY_IN_BYTES) 
+	{
 		*(tty->ibuf_head) = key;
 		tty->ibuf_head++;
 		if (tty->ibuf_head == tty->ibuf + TTY_IN_BYTES)
@@ -493,12 +493,17 @@ PUBLIC void dump_tty_buf()
 }
 
 
+//to judge if cursor is out of range, 1: out of range
+/* NOTICE: NOT IN USE FOR NOW */
+PRIVATE int is_out_of_range = 1;
+
 //direaction: 0:LEFT, 1: RIGHT
 PRIVATE void move_cursor(int direction, TTY* tty)
 {
 	if(direction == 0)
 	{
 		tty->console->cursor--;
+		printl(*(kb_in.p_head));
 		flush(tty->console);
 	}
 	else if(direction == 1)
