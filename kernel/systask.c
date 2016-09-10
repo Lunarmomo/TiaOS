@@ -58,7 +58,7 @@ PUBLIC void task_sys()
 			send_recv(SEND, src, &msg);
 			break;
 		case GET_PROC_STATUS:
-			msg.u.m3.m3i1 = user_proc_table[0].stacksize;
+			msg.u.m3.m3i1 = user_proc_table;
 			send_recv(SEND, src, &msg);
 			break;	
 		default:
