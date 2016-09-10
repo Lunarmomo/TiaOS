@@ -57,6 +57,7 @@ PUBLIC void init_screen(TTY* tty)
 	if (nr_tty == 0) {
 		tty->console->cursor = disp_pos / 2;
 		disp_pos = 0;
+		out_char(tty->console, 'B');
 	}
 	else {
 		/* 
@@ -295,6 +296,14 @@ PUBLIC void scroll_screen(CONSOLE* con, int dir)
 			else
 				con->crtc_start += SCR_WIDTH;
 		}
+	}
+	else if (dir == SCR_LEFT)
+	{
+		con->crtc_start -= SCR_SIZE;
+	}
+	else if (dir == SCR_RIGHT)
+	{
+		con->crtc_start += SCR_SIZE;
 	}
 	else {
 		assert(dir == SCR_DN || dir == SCR_UP);

@@ -259,7 +259,7 @@ void shabby_shell(const char * tty_name)
 	char rdbuf[128];
 
 	while (1) {
-		write(1, "$ ", 2);
+		write(1, "$ ", 3);
 		int r = read(0, rdbuf, 70);
 		rdbuf[r] = 0;
 
@@ -269,6 +269,7 @@ void shabby_shell(const char * tty_name)
 		char * s;
 		int word = 0;
 		char ch;
+		//read param in turn
 		do {
 			ch = *p;
 			if (*p != ' ' && *p != 0 && !word) {
@@ -362,6 +363,7 @@ void Init()
  *======================================================================*/
 void TestA()
 {
+	spin("TestA");
 	for(;;);
 }
 
@@ -370,6 +372,7 @@ void TestA()
  *======================================================================*/
 void TestB()
 {
+	spin("TestB");
 	for(;;);
 }
 
@@ -378,6 +381,7 @@ void TestB()
  *======================================================================*/
 void TestC()
 {
+	spin("TestC");
 	for(;;);
 }
 

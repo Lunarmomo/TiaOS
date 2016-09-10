@@ -182,12 +182,18 @@ PUBLIC void in_process(TTY* tty, u32 key)
 				scroll_screen(tty->console, SCR_UP);
 			}
 			break;
-		// case LEFT:
-		// 	move_cursor(0, tty);
-		// 	break;
-		// case RIGHT:
-		// 	move_cursor(1, tty);
-		// 	break;
+		case LEFT:
+			if ((key & FLAG_SHIFT_L) ||
+			    (key & FLAG_SHIFT_R)) {
+				scroll_screen(tty->console, SCR_LEFT);
+			}
+			break;
+		case RIGHT:
+			if ((key & FLAG_SHIFT_L) ||
+			    (key & FLAG_SHIFT_R)) {
+				scroll_screen(tty->console, SCR_RIGHT);	
+			}
+			break;
 		case F1:
 		case F2:
 		case F3:
