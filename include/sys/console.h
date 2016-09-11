@@ -18,6 +18,7 @@ typedef struct s_console
 	int		is_full;
 }CONSOLE;
 
+PUBLIC void	clear_screen(int pos, int len);
 
 #define SCR_UP	1	/* scroll upward */
 #define SCR_DN	-1	/* scroll downward */

@@ -12,7 +12,7 @@ CFLAGS		= -I ../include/ -c -fno-builtin -fno-stack-protector -Wall
 LDFLAGS		= -Ttext 0x1000
 DASMFLAGS	= -D
 LIB		= ../lib/orangescrt.a
-BIN		= echo file create-file read-file write-file proc-status append-file ls stat
+BIN		= echo file create-file read-file write-file proc-status append-file ls stat clear
 # All Phony Targets
 .PHONY : everything final clean realclean disasm all install
 

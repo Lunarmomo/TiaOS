@@ -167,7 +167,7 @@ enum msgtype {
 	HARD_INT = 1,
 
 	/* SYS task */
-	/*  2	       3 	   4		   5		6	   7	*/
+	/*  2	       3 	   4		   5		6	   7  */
 	GET_TICKS, GET_PID, GET_RTC_TIME, GET_PROC_STATUS, GET_TASK, GET_USER_PROC,
 
 	/* FS */
@@ -190,7 +190,10 @@ enum msgtype {
 	DEV_CLOSE,
 	DEV_READ,
 	DEV_WRITE,
-	DEV_IOCTL
+	DEV_IOCTL,
+
+	/*  additional  */
+	CLEAR
 };
 
 /* macros for messages */
