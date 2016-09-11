@@ -196,11 +196,13 @@ PUBLIC int strip_path(char * filename, const char * pathname,
  *				  do_info
  *				get the infomation of the file
  ****************************************************************************/
-PUBLIC int do_info()
+PUBLIC int do_finfo()
 {
-	printf("\n\n%d\n\n", INFO);
-	char *path = (char *)fs_msg.PATHNAME;
-	char *buffer = (char *)fs_msg.BUF;
+	char path[MAX_PATH];
+	int srs = fs_msg.source;
+	memcpy(path, va2la(srs, fs_msg.PATHNAME), MAX_PATH);
+	char temp[128];
+	char *buffer = (char *)temp;
 	int tempNode = search_file(path);
 	struct inode * p;
 
@@ -266,7 +268,7 @@ PUBLIC int do_info()
 			cn[k] = cnt %10 + '0';
 	memcpy(buffer, cn + k + 1, MAX_FILENAME_LEN - k + 1);
 
-
+	memcpy(va2la(srs, fs_msg.BUF), temp, 128);
 	return 1;
 
 }
@@ -277,8 +279,11 @@ PUBLIC int do_info()
  ****************************************************************************/
 PUBLIC int do_list()
 {
-	char *path = (char *)fs_msg.PATHNAME;
-	char filename[MAX_PATH];
+	int srs = fs_msg.source;
+	char path[MAX_PATH];
+	memcpy(path, va2la(srs, fs_msg.PATHNAME),MAX_PATH);
+
+	char filename[MAX_FILENAME_LEN];
 	struct inode *dir_inode;
 	memset(filename, 0, MAX_FILENAME_LEN);
 	if(strip_path(filename, path, &dir_inode) != 0)
@@ -292,15 +297,11 @@ PUBLIC int do_list()
 	m = 0;
 	num = 0;
 
-	char *buffer = fs_msg.BUF;
-
-//	memcpy(buffer, "  File name       Size    Sector Num      Type\n", 47);
-//	buffer+=47;
-
 	struct inode *tempNode;
 	char cn[MAX_FILENAME_LEN + 1];
 	struct dir_entry * pde;
-
+	char temp[1024];
+	char *buffer = temp;
 	for (i = 0; i < nr_dir_blks; i++) {
 		RD_SECT(dir_inode->i_dev, dir_blk0_nr + i);
 		pde = (struct dir_entry *)fsbuf;
@@ -314,71 +315,25 @@ PUBLIC int do_list()
 			{
 				num ++;
 				len = strlen(pde->name);
+				len = min(len, MAX_FILENAME_LEN);
 				memcpy(buffer, pde->name, len);
-				for(; len < MAX_FILENAME_LEN; len ++)
+				for(; len < MAX_FILENAME_LEN + 6; len ++)
 					buffer[len] = ' ';
 				buffer+=len;
 
-				if(num%7 == 0)
+				if(num%4 == 0)
 				{
 					buffer[0] = '\n';
 					buffer++;
 					buffer[0] = 0;
 				}
-/*				cnt = tempNode->i_size;
-				memset(cn, ' ', MAX_FILENAME_LEN);
-				cn[MAX_FILENAME_LEN] = 0;
-				k = MAX_FILENAME_LEN - 1;
-
-				if(cnt == 0)
-				{
-					cn[MAX_FILENAME_LEN - 1] = '0';
-					k--;
-				}
-				else
-					for(; cnt>0;cnt/=10, k--)
-						cn[k] = cnt %10 + '0';
-				memcpy(buffer, cn, MAX_FILENAME_LEN + 1);
-				buffer += MAX_FILENAME_LEN;
-
-				cnt = tempNode->i_nr_sects;
-				memset(cn, ' ', MAX_FILENAME_LEN);
-				cn[MAX_FILENAME_LEN] = 0;
-				k = MAX_FILENAME_LEN - 1;
-				
-				if(cnt == 0)
-				{
-					cn[MAX_FILENAME_LEN - 1] = '0';
-					k--;
-				}
-				else
-					for(; cnt>0;cnt/=10, k--)
-						cn[k] = cnt %10 + '0';
-				memcpy(buffer, cn, MAX_FILENAME_LEN + 1);
-				buffer += MAX_FILENAME_LEN;
-				printf("%d\n", tempNode->i_mode);
-				switch(tempNode->i_mode){
-					case 0x2000: 
-						memcpy(buffer, "    folder\n", 12);
-					break;
-					case 0x4000:
-						memcpy(buffer,"    Specail file\n",19);
-					break;
-						memcpy(buffer,"    Regular file\n",18);
-					case 0x8000:
-					break;
-					default:
-					printf("dasda\n\n" );
-				}
-
-				buffer +=sizeof(buffer)-1;
-*/			}									
+			}									
 			if (++m > nr_dir_entries)
 				break;
 		}
-
 		if (m > nr_dir_entries) /* all entries have been iterated */
 			break;
 	}
+	memcpy(va2la(srs, fs_msg.BUF), temp,strlen(temp));
 	return num;
 }

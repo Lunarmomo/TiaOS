@@ -256,6 +256,8 @@ void shabby_shell(const char * tty_name)
 	int fd_stdout = open(tty_name, O_RDWR);
 	assert(fd_stdout == 1);
 
+	int is_occupy = 0;
+
 	char rdbuf[128];
 
 	while (1) {
@@ -285,11 +287,13 @@ void shabby_shell(const char * tty_name)
 		} while(ch);
 		argv[argc] = 0;
 
+
+
 		int fd = open(argv[0], O_RDWR);
 		if (fd == -1) {
 			if (rdbuf[0]) {
 				write(1, "{", 1);
-				write(1, rdbuf, r);
+				write(1, rdbuf[0], r);
 				write(1, "}\n", 2);
 			}
 		}

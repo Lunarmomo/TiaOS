@@ -12,7 +12,7 @@ CFLAGS		= -I ../include/ -c -fno-builtin -fno-stack-protector -Wall
 LDFLAGS		= -Ttext 0x1000
 DASMFLAGS	= -D
 LIB		= ../lib/orangescrt.a
-BIN		= echo file create-file write-file read-file proc-status
+BIN		= echo file create-file read-file write-file proc-status append-file ls stat
 # All Phony Targets
 .PHONY : everything final clean realclean disasm all install
 
@@ -66,10 +66,16 @@ create-file.o: create-file.c ../include/type.h ../include/stdio.h
 create-file : create-file.o start.o $(LIB)
 	$(LD) $(LDFLAGS) -o $@ $?
 
+delete-file.o: delete-file.c ../include/type.h ../include/stdio.h
+	$(CC) $(CFLAGS) -o $@ $<
+delete-file : delete-file.o start.o $(LIB)
+	$(LD) $(LDFLAGS) -o $@ $?
+
 file.o: file.c ../include/type.h ../include/stdio.h
 	$(CC) $(CFLAGS) -o $@ $<
 file : file.o start.o $(LIB)
 	$(LD) $(LDFLAGS) -o $@ $?
+
 
 read-file.o: read-file.c ../include/type.h ../include/stdio.h
 	$(CC) $(CFLAGS) -o $@ $<
@@ -79,6 +85,21 @@ read-file : read-file.o start.o $(LIB)
 write-file.o: write-file.c ../include/type.h ../include/stdio.h
 	$(CC) $(CFLAGS) -o $@ $<
 write-file : write-file.o start.o $(LIB)
+	$(LD) $(LDFLAGS) -o $@ $?
+
+append-file.o: append-file.c ../include/type.h ../include/stdio.h
+	$(CC) $(CFLAGS) -o $@ $<
+append-file : append-file.o start.o $(LIB)
+	$(LD) $(LDFLAGS) -o $@ $?
+
+ls.o: ls.c ../include/type.h ../include/stdio.h
+	$(CC) $(CFLAGS) -o $@ $<
+ls : ls.o start.o $(LIB)
+	$(LD) $(LDFLAGS) -o $@ $?
+
+stat.o: stat.c ../include/type.h ../include/stdio.h
+	$(CC) $(CFLAGS) -o $@ $<
+stat : stat.o start.o $(LIB)
 	$(LD) $(LDFLAGS) -o $@ $?
 
 pwd.o: pwd.c ../include/type.h ../include/stdio.h

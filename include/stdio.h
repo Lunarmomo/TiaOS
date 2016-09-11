@@ -154,7 +154,7 @@ PUBLIC int	syslog		(const char *fmt, ...);
 PUBLIC int 	list		(char *path, char *buffer);
 
 /* lib/info.c */
-PUBLIC int 	info		(char *filename, char *buffer);
+PUBLIC int 	finfo		(char *filename, char *buffer);
 
 
 #endif /* _ORANGES_STDIO_H_ */
