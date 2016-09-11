@@ -14,3 +14,4 @@ Supported commands:<br/>
   >create-file filename<br/>
   >read-file filename; output: content of file<br/>
   >write-file filename content; replace file content with input<br/>
+  >modify-file filename line_num content
