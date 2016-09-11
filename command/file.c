@@ -2,71 +2,54 @@
 
 int main(int argc, char * argv[])
 {
+
+	printf("%s", fileChar);
+
+	// MESSAGE msg;
+	// memset(msg, 0, sizeof(MESSAGE));
+	// msg.type = 15;
+	// char pth[12] = "/blah";
+	// msg.u.m3.m3p1 = pth;
+	// send_recv(3, 3, &msg);
+
+	// /* info */
+	// char* info;
+	// info = (char*)msg.u.m3.m3p2;
+	// int ret;
+	// ret = list(pth, info);
+	// printf("%s\n",fileChar);
+
 	// int fd;
 	// int n;
-	// const char filename[] = "blah";
-	// const char bufw[] = "this is a file";
-	// const int rd_bytes = 14;
+	// const char* filename = argv[1];
+	// const char bufw[] = "imyourfather";
+	// const int rd_bytes = 30;
 	// char bufr[rd_bytes];
 
-
-	// /* create */
+	/* create */
 	// fd = open(filename, O_CREAT | O_RDWR);
-	// assert(fd != -1);
 	// printf("File created. fd: %d\n", fd);
 
-	// /* write */
+	/* write */
 	// n = write(fd, bufw, strlen(bufw));
+	//assert(n == strlen(bufw));
 
-	// /* close */
+	/* close */
 	// close(fd);
 
-	// /* open */
+	/* open */
 	// fd = open(filename, O_RDWR);
+	//assert(fd != -1);
 	// printf("File opened. fd: %d\n", fd);
-	
-	// /* read */
+
+	/* read */
 	// n = read(fd, bufr, rd_bytes);
 	// bufr[n] = 0;
 	// printf("%d bytes read: %s\n", n, bufr);
 
-	// /* close */
+	
+	// printf("233: %s\n", info);
+	/* close */
 	// close(fd);
-
-
-	int fd;
-	int n;
-	const char* filename = argv[1];
-	const char bufw[] = "asdfgh";
-	const int rd_bytes = 3;
-	char bufr[rd_bytes];
-
-	//assert(rd_bytes <= strlen(bufw));
-
-	/* create */
-	fd = open(filename, O_CREAT | O_RDWR);
-	//assert(fd != -1);
-	printf("File created. fd: %d\n", fd);
-
-	/* write */
-	n = write(fd, bufw, strlen(bufw));
-	//assert(n == strlen(bufw));
-
-	/* close */
-	close(fd);
-
-	/* open */
-	fd = open(filename, O_RDWR);
-	//assert(fd != -1);
-	printf("File opened. fd: %d\n", fd);
-
-	/* read */
-	n = read(fd, bufr, rd_bytes);
-	assert(n == rd_bytes);
-	bufr[n] = 0;
-	printf("%d bytes read: %s\n", n, bufr);
-
-	/* close */
-	close(fd);
 
 }

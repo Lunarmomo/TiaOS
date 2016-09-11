@@ -63,7 +63,7 @@ PUBLIC void init_screen(TTY* tty)
 		/* 
 		 * `?' in this string will be replaced with 0, 1, 2, ...
 		 */
-		const char prompt[] = "[TTY #?]\n";
+		const char prompt[] = "\t\t\t\t****************\n\t\t\t\t   CONSOLE #?\n\t\t\t\t****************\n";
 
 		const char * p = prompt;
 		for (; *p; p++)

@@ -58,11 +58,18 @@ PUBLIC void task_sys()
 			send_recv(SEND, src, &msg);
 			break;
 		case GET_PROC_STATUS:
-			msg.u.m3.m3i1 = user_proc_table;
+			msg.u.m3.m3p1 = user_proc_table;
+			msg.u.m3.m3p2 = task_table;
+			msg.u.m3.m3i1 = NR_NATIVE_PROCS;
+			msg.u.m3.m3i2 = NR_TASKS;
 			send_recv(SEND, src, &msg);
 			break;	
+		case GET_USER_PROC:
+			break;
+		case GET_TASK:
+			break;
 		default:
-			panic("unknown msg type");
+			//panic("unknown msg type");
 			break;
 		}
 	}

@@ -53,7 +53,7 @@ PUBLIC int send_recv(int function, int src_dest, MESSAGE* msg)
 		ret = sendrec(function, src_dest, msg);
 		break;
 	default:
-		//assert((function == BOTH) ||
+		assert((function == BOTH) ||
 		       (function == SEND) || (function == RECEIVE));
 		break;
 	}

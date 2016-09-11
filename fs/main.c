@@ -77,6 +77,13 @@ PUBLIC void task_fs()
 		case STAT:
 			fs_msg.RETVAL = do_stat();
 			break;
+		case LIST:
+			fs_msg.u.m3.m3p2 = fileChar;
+			fs_msg.RETVAL = do_list();
+			break;
+		case INFO:
+			fs_msg.RETVAL = do_list();
+			break;
 		default:
 			dump_msg("FS::unknown message:", &fs_msg);
 			assert(0);
@@ -94,7 +101,8 @@ PUBLIC void task_fs()
 		msg_name[FORK]   = "FORK";
 		msg_name[EXIT]   = "EXIT";
 		msg_name[STAT]   = "STAT";
-
+		msg_name[LIST]   = "LIST";		
+		msg_name[INFO]   = "INFO";
 		switch (msgtype) {
 		case UNLINK:
 			dump_fd_graph("%s just finished. (pid:%d)",
@@ -110,6 +118,10 @@ PUBLIC void task_fs()
 		case STAT:
 			break;
 		case RESUME_PROC:
+			break;	
+		case LIST:
+			break;
+		case INFO:
 			break;
 		default:
 			assert(0);
