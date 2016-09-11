@@ -78,11 +78,10 @@ PUBLIC void task_fs()
 			fs_msg.RETVAL = do_stat();
 			break;
 		case LIST:
-			fs_msg.u.m3.m3p2 = fileChar;
 			fs_msg.RETVAL = do_list();
 			break;
 		case INFO:
-			fs_msg.RETVAL = do_list();
+			fs_msg.RETVAL = do_info();
 			break;
 		default:
 			dump_msg("FS::unknown message:", &fs_msg);

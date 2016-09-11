@@ -148,7 +148,13 @@ PUBLIC int	execv		(const char * path, char * argv[]);
 PUBLIC int	stat		(const char *path, struct stat *buf);
 
 /* lib/syslog.c */
-PUBLIC	int	syslog		(const char *fmt, ...);
+PUBLIC int	syslog		(const char *fmt, ...);
+
+/* lib/list.c */
+PUBLIC int 	list		(char *path, char *buffer);
+
+/* lib/info.c */
+PUBLIC int 	info		(char *filename, char *buffer);
 
 
 #endif /* _ORANGES_STDIO_H_ */

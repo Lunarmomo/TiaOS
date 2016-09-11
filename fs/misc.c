@@ -277,9 +277,6 @@ PUBLIC int do_info()
  ****************************************************************************/
 PUBLIC int do_list()
 {
-	fileChar[0] = 'A';
-	fileChar[1] = 0;
-	return strlen(fileChar);
 	char *path = (char *)fs_msg.PATHNAME;
 	char filename[MAX_PATH];
 	struct inode *dir_inode;
@@ -295,9 +292,8 @@ PUBLIC int do_list()
 	m = 0;
 	num = 0;
 
-	//char *buffer = fs_msg.BUF;
-char *buffer = fs_msg.BUF;
-	
+	char *buffer = fs_msg.BUF;
+
 //	memcpy(buffer, "  File name       Size    Sector Num      Type\n", 47);
 //	buffer+=47;
 
@@ -318,9 +314,9 @@ char *buffer = fs_msg.BUF;
 			{
 				num ++;
 				len = strlen(pde->name);
+				memcpy(buffer, pde->name, len);
 				for(; len < MAX_FILENAME_LEN; len ++)
 					buffer[len] = ' ';
-				memcpy(buffer, pde->name,len);
 				buffer+=len;
 
 				if(num%7 == 0)

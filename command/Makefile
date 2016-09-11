@@ -12,7 +12,7 @@ CFLAGS		= -I ../include/ -c -fno-builtin -fno-stack-protector -Wall
 LDFLAGS		= -Ttext 0x1000
 DASMFLAGS	= -D
 LIB		= ../lib/orangescrt.a
-BIN		= echo file create-file
+BIN		= echo file create-file write-file read-file proc-status
 # All Phony Targets
 .PHONY : everything final clean realclean disasm all install
 
@@ -51,11 +51,6 @@ proc-status.o: proc-status.c ../include/type.h ../include/stdio.h
 proc-status : proc-status.o start.o $(LIB)
 	$(LD) $(LDFLAGS) -o $@ $?
 
-shityou.o: shityou.c ../include/type.h ../include/stdio.h
-	$(CC) $(CFLAGS) -o $@ $<
-shityou : shityou.o start.o $(LIB)
-	$(LD) $(LDFLAGS) -o $@ $?
-
 get-pid.o: get-pid.c ../include/type.h ../include/stdio.h
 	$(CC) $(CFLAGS) -o $@ $<
 get-pid : get-pid.o start.o $(LIB)
@@ -78,7 +73,7 @@ file : file.o start.o $(LIB)
 
 read-file.o: read-file.c ../include/type.h ../include/stdio.h
 	$(CC) $(CFLAGS) -o $@ $<
-readv : read-file.o start.o $(LIB)
+read-file : read-file.o start.o $(LIB)
 	$(LD) $(LDFLAGS) -o $@ $?
 
 write-file.o: write-file.c ../include/type.h ../include/stdio.h

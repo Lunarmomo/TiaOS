@@ -3,21 +3,21 @@
 int main(int argc, char * argv[])
 {
 
-	printf("%s", fileChar);
+	// printf("%s", fileChar);
 
 	// MESSAGE msg;
 	// memset(msg, 0, sizeof(MESSAGE));
 	// msg.type = 15;
-	// char pth[12] = "/blah";
+	char pth[12] = "/";
 	// msg.u.m3.m3p1 = pth;
 	// send_recv(3, 3, &msg);
 
-	// /* info */
-	// char* info;
+	/* info */
+	char info[1280];
 	// info = (char*)msg.u.m3.m3p2;
-	// int ret;
-	// ret = list(pth, info);
-	// printf("%s\n",fileChar);
+	int ret = 1;
+	ret = list(pth, info);
+	printf("%d\n",ret);
 
 	// int fd;
 	// int n;
