@@ -293,7 +293,7 @@ void shabby_shell(const char * tty_name)
 		if (fd == -1) {
 			if (rdbuf[0]) {
 				write(1, "{", 1);
-				write(1, rdbuf[0], r);
+				write(1, rdbuf, r);
 				write(1, "}\n", 2);
 			}
 		}

@@ -26,7 +26,7 @@ int main(int argc, char * argv[])
 	}
 	else if (n <= rd_count)
 	{
-		printf("read success, %dcharacters read,content:\n", n);
+		printf("read success, %d characters read,content:\n", n);
 		printf("%s\n", content);
 	}
 	else

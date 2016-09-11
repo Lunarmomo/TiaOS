@@ -64,9 +64,10 @@ PUBLIC void task_sys()
 			msg.u.m3.m3i2 = NR_TASKS;
 			send_recv(SEND, src, &msg);
 			break;	
-		case GET_USER_PROC:
-			break;
-		case GET_TASK:
+		case CLEAR:
+			clear_screen(tty_table[current_console].console->crtc_start, SCR_SIZE);
+			init_screen(&tty_table[current_console]);
+			send_recv(SEND, src, &msg);
 			break;
 		default:
 			//panic("unknown msg type");
