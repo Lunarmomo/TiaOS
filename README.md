@@ -6,12 +6,15 @@ This Is An Operating System<br/>
 ![image](https://github.com/TiaOS/TiaOS/blob/master/photo/6207233296175315261.jpg)<br/>
 **任凭风浪起,稳坐钓鱼台**<br/>
 
-Supported commands:<br/>
-  >proc-status<br/>
-  >proc-status task<br/>
-  >proc-status user<br/>
-  >file<br/>
-  >create-file filename<br/>
-  >read-file filename; output: content of file<br/>
-  >write-file filename content; replace file content with input<br/>
-  >modify-file filename line_num content
+##Supported commands:<br/>
+  >__proc-status__;                 show process status<br/>
+  >__proc-status task__<br/>
+  >__proc-status user__<br/>
+  >__file__                         just test<br/>
+  >__create-file filename__<br/>
+  >__read-file filename__;          output: content of file<br/>
+  >__write-file filename content__; replace file content with input<br/>
+  >__append-file filename content__;append content to file<br/>
+  >__delete-file filename__
+  >__ls__
+  >__stat filename__;               show file detail info
