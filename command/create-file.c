@@ -11,6 +11,7 @@ int main(int argc, char * argv[])
 	{
 		/* create */
 		const char* filename = argv[1];
+		printf("%s\n", filename);
 		fd = open(filename, O_CREAT | O_RDWR);
 		if(fd == -1)
 		{

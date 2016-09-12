@@ -268,7 +268,31 @@ PUBLIC int do_finfo()
 			cn[k] = cnt %10 + '0';
 	memcpy(buffer, cn + k + 1, MAX_FILENAME_LEN - k + 1);
 
+	buffer +=MAX_FILENAME_LEN -k ;
+	switch(p->i_mode)
+	{
+		case 0x8000:
+		memcpy(buffer, "Type:       Regular file\n", sizeof("Type:       Regular file\n"));
+		break;
+		case 0x4000:
+		memcpy(buffer, "Type:       File folder\n", sizeof("Type:       File folder\n"));
+		break;
+		case 0x2000:
+		case 0:
+		memcpy(buffer, "Type:       Specail file\n", sizeof("Type:       Specail file\n"));
+		break;
+		default:
+		memcpy(buffer, "Type:       Unknown\n", sizeof("Type:       Unknown\n"));
+	}
+
+
+
+
 	memcpy(va2la(srs, fs_msg.BUF), temp, 128);
+
+
+
+
 	return 1;
 
 }
