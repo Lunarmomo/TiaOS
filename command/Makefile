@@ -12,7 +12,7 @@ CFLAGS		= -I ../include/ -c -fno-builtin -fno-stack-protector -Wall
 LDFLAGS		= -Ttext 0x1000
 DASMFLAGS	= -D
 LIB		= ../lib/orangescrt.a
-BIN		= echo file create-file read-file write-file proc-status append-file ls stat clear
+BIN		= man
 # All Phony Targets
 .PHONY : everything final clean realclean disasm all install
 
@@ -49,11 +49,6 @@ echo : echo.o start.o $(LIB)
 proc-status.o: proc-status.c ../include/type.h ../include/stdio.h
 	$(CC) $(CFLAGS) -o $@ $<
 proc-status : proc-status.o start.o $(LIB)
-	$(LD) $(LDFLAGS) -o $@ $?
-
-get-pid.o: get-pid.c ../include/type.h ../include/stdio.h
-	$(CC) $(CFLAGS) -o $@ $<
-get-pid : get-pid.o start.o $(LIB)
 	$(LD) $(LDFLAGS) -o $@ $?
 
 clear.o: clear.c ../include/type.h ../include/stdio.h
@@ -100,6 +95,26 @@ ls : ls.o start.o $(LIB)
 stat.o: stat.c ../include/type.h ../include/stdio.h
 	$(CC) $(CFLAGS) -o $@ $<
 stat : stat.o start.o $(LIB)
+	$(LD) $(LDFLAGS) -o $@ $?
+
+status.o: status.c ../include/type.h ../include/stdio.h
+	$(CC) $(CFLAGS) -o $@ $<
+status : status.o start.o $(LIB)
+	$(LD) $(LDFLAGS) -o $@ $?
+
+info.o: info.c ../include/type.h ../include/stdio.h
+	$(CC) $(CFLAGS) -o $@ $<
+info : info.o start.o $(LIB)
+	$(LD) $(LDFLAGS) -o $@ $?
+
+man.o: man.c ../include/type.h ../include/stdio.h
+	$(CC) $(CFLAGS) -o $@ $<
+man : man.o start.o $(LIB)
+	$(LD) $(LDFLAGS) -o $@ $?
+
+proc.o: proc.c ../include/type.h ../include/stdio.h
+	$(CC) $(CFLAGS) -o $@ $<
+proc : proc.o start.o $(LIB)
 	$(LD) $(LDFLAGS) -o $@ $?
 
 pwd.o: pwd.c ../include/type.h ../include/stdio.h

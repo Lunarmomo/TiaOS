@@ -53,7 +53,7 @@
 #define TTY_FIRST	(tty_table)
 #define TTY_END		(tty_table + NR_CONSOLES)
 
-
+PRIVATE int scroll_counter = 1;
 PRIVATE void	init_tty	(TTY* tty);
 PRIVATE void	tty_dev_read	(TTY* tty);
 PRIVATE void	tty_dev_write	(TTY* tty);
@@ -171,15 +171,33 @@ PUBLIC void in_process(TTY* tty, u32 key)
 			put_key(tty, '\b');
 			break;
 		case UP:
-			if ((key & FLAG_SHIFT_L) ||
-			    (key & FLAG_SHIFT_R)) {	/* Shift + Up */
+			if ((key & FLAG_ALT_L) ||
+			    (key & FLAG_ALT_R)) {
 				scroll_screen(tty->console, SCR_DN);
+			}
+			else if ((key & FLAG_SHIFT_L) || (key & FLAG_SHIFT_R)) {  // Cambra mod scroll (position memorized)
+				asm ("cli");
+				scroll_counter++;
+				out_byte(CRTC_ADDR_REG, START_ADDR_H);
+                		out_byte(CRTC_DATA_REG, ((80 * scroll_counter) >> 8) & 0xFF);
+                		out_byte(CRTC_ADDR_REG, START_ADDR_L);
+                		out_byte(CRTC_DATA_REG, (80 * scroll_counter) & 0xFF);
+                		asm ("sti");
 			}
 			break;
 		case DOWN:
-			if ((key & FLAG_SHIFT_L) ||
-			    (key & FLAG_SHIFT_R)) {	/* Shift + Down */
+			if ((key & FLAG_ALT_L) || (key & FLAG_ALT_R)) {
 				scroll_screen(tty->console, SCR_UP);
+			}
+			else if (((key & FLAG_SHIFT_L) ||
+			    (key & FLAG_SHIFT_R)) && scroll_counter > 0) {
+				asm ("cli");
+				scroll_counter--;
+				out_byte(CRTC_ADDR_REG, START_ADDR_H);
+                    		out_byte(CRTC_DATA_REG, ((80 * scroll_counter) >> 8) & 0xFF);
+                    		out_byte(CRTC_ADDR_REG, START_ADDR_L);
+                    		out_byte(CRTC_DATA_REG, (80 * scroll_counter) & 0xFF);
+                    		asm ("sti");
 			}
 			break;
 		case LEFT:

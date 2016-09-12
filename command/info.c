@@ -2,6 +2,10 @@
 
 int main(int argc, char * argv[])
 {
+	if (argc < 2)
+	{
+		printf("please input file name. :)\n");
+	}
 	char pth[13];
 	pth[0] = '/';
 	memcpy(pth+1, argv[1], 12);

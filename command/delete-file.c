@@ -15,6 +15,6 @@ int main(int argc, char * argv[])
 	}
 	close(fd);
 	const char* filename = argv[1];
-	unlink("asd");
+	unlink(filename);
 	return 0;
 }
