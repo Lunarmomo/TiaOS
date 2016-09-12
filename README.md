@@ -7,9 +7,9 @@ This Is An Operating System<br/>
 **任凭风浪起,稳坐钓鱼台**<br/>
 
 ##Supported commands:<br/>
-  >__proc-status__;                 show process status<br/>
-  >__proc-status task__<br/>
-  >__proc-status user__<br/>
+  >__status__;                 show process status<br/>
+  >__status task__<br/>
+  >__status user__<br/>
   >__file__                         just test<br/>
   >__create-file filename__<br/>
   >__read-file filename__;          output: content of file<br/>
@@ -17,4 +17,4 @@ This Is An Operating System<br/>
   >__append-file filename content__;append content to file<br/>
   >__delete-file filename__
   >__ls__
-  >__stat filename__;               show file detail info
+  >__info filename__;               show file detail info
